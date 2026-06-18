@@ -16,9 +16,10 @@ class Company extends Model
         'services',
         'bio',
         'accreditation_certificate',
+        'photo_company',
     ];
 
-    
+          
 
     public function user()
     {

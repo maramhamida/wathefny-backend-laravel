@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
      Schema::create('job_seekers', function (Blueprint $table) {
@@ -19,16 +16,13 @@ return new class extends Migration
          $table->string('major');
          $table->string('experience_area');
          $table->text('about_me')->nullable();
-         $table->string('certificate')->nullable();
-        $table->string('photo')->nullable();
+         $table->longText('certificate')->nullable();
+         $table->longText('photo')->nullable();
 
          $table->timestamps();
       });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('job_seekers');

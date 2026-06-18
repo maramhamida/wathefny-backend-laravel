@@ -26,16 +26,14 @@ class RegisterCompanyRequest extends FormRequest
         
         'company_name' => 'required|string',
         'email' => 'required|email|unique:users,email',
-        'password' => 'required|min:6',
-
-        // company data
+        'password' => 'required|min:6',   
         'company_email' => 'required|email',
         'company_code' => 'required',
         'company_address' => 'required',
         'services' => 'nullable|string',
         'bio' => 'nullable|string',
-
-        'accreditation_certificate' => 'nullable|file|mimes:pdf,jpg,png',
+        'accreditation_certificate' => 'nullable',
+        'photo_company' => 'nullable',
     ];
     }
 }

@@ -16,3 +16,8 @@ Route :: get('/test',function(){
 });
 Route::post('/register/job-seeker', [AuthenticationController::class, 'registerJobSeeker']);
 Route::post('/register/company', [AuthenticationController::class, 'registerCompany']);
+Route::post('/login', [AuthenticationController::class, 'login']);
+Route::get('/test-token', function () {
+    $user = \App\Models\User::first();
+    return $user->createToken('test')->plainTextToken;
+});

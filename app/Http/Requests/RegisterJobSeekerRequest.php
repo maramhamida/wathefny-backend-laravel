@@ -24,19 +24,16 @@ class RegisterJobSeekerRequest extends FormRequest
     {
      
     return [
-        // user data
+    
         'name' => 'required|string',
         'email' => 'required|email|unique:users,email',
         'password' => 'required|min:6',
-
-        // job seeker data
         'id_number' => 'required',
         'major' => 'required',
         'experience_area' => 'required',
         'about_me' => 'nullable',
-
-        'certificate' => 'nullable|file|mimes:pdf,jpg,png',
-        'photo' => 'nullable|image',
+         'certificate' => 'nullable',
+          'photo' => 'nullable',
     ];
     }
 }

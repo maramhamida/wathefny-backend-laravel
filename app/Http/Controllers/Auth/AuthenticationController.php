@@ -7,20 +7,51 @@ use App\Http\Requests\RegisterCompanyRequest;
 use App\Http\Requests\RegisterJobSeekerRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Http\Request;
 class AuthenticationController extends Controller
 {
+
+
+ public function login(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required'
+    ]);
+
+    $user = User::where('email', $request->email)->first();
+
+    if (!$user) {
+        return response()->json(['message' => 'User not found'], 404);
+    }
+
+    if (!Hash::check($request->password, $user->password)) {
+        return response()->json(['message' => 'Wrong password'], 401);
+    }
+
+
+$token = $user->createToken('auth_token')->plainTextToken;
+
+    return response()->json([
+        'message' => 'Login successful',
+        'debug_token' => $token,
+        'user' => $user,
+        'role' => $user->role,
+       'token' => $token   
+    ], 200);
+}
     public function registerJobSeeker(RegisterJobSeekerRequest $request)
 {
+
+
     $user = User::create([
         'name' => $request->name,
         'email' => $request->email,
         'password' => Hash::make($request->password),
         'role' => 'job_seeker'
     ]);
-
-    $certificate = $request->file('certificate')?->store('certificates','public');
-    $photo = $request->file('photo')?->store('photos','public');
+      $certificate = $request->certificate;
+    
 
     $user->jobSeeker()->create([
         'id_number' => $request->id_number,
@@ -28,7 +59,7 @@ class AuthenticationController extends Controller
         'experience_area' => $request->experience_area,
         'about_me' => $request->about_me,
         'certificate' => $certificate,
-        'photo' => $photo,
+        'photo' =>  $request->photo,
     ]);
 
     return response()->json([
@@ -44,16 +75,18 @@ public function registerCompany(RegisterCompanyRequest $request)
         'role' => 'company'
     ]);
 
-    $certificate = $request->file('accreditation_certificate')?->store('company_certificates','public');
+       $accreditation_certificate = $request->accreditation_certificate;
+   
 
-    $user->company()->create([
+        $user->company()->create([
         'company_name' => $request->company_name,
         'company_email' => $request->company_email,
         'company_code' => $request->company_code,
         'company_address' => $request->company_address,
         'services' => $request->services,
         'bio' => $request->bio,
-        'accreditation_certificate' => $certificate,
+        'accreditation_certificate' => $accreditation_certificate,
+        'photo_company' => $request->photo_company,
     ]);
 
     return response()->json([
