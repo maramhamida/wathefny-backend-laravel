@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
+
+use App\Models\User; 
 
 class Company extends Model
 {
@@ -17,12 +18,17 @@ class Company extends Model
         'bio',
         'accreditation_certificate',
         'photo_company',
+        'status', 
     ];
-
-          
-
+ 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    
+    public function jobs()
+    {
+        return $this->hasMany(Job::class, 'company_id');
     }
 }

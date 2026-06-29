@@ -32,8 +32,8 @@ class RegisterJobSeekerRequest extends FormRequest
         'major' => 'required',
         'experience_area' => 'required',
         'about_me' => 'nullable',
-         'certificate' => 'nullable',
-          'photo' => 'nullable',
+        'certificate' => 'nullable',
+        'photo' => 'nullable',
     ];
     }
 }
